@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.ItemStockDOMapper">
+
   <resultMap id="BaseResultMap" type="org.example.dataObject.ItemStockDO">
     <!--
       WARNING - @mbg.generated
@@ -11,6 +12,7 @@
     <result column="stock" jdbcType="INTEGER" property="stock" />
     <result column="item_id" jdbcType="INTEGER" property="itemId" />
   </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -115,5 +117,11 @@
     set stock = #{stock,jdbcType=INTEGER},
       item_id = #{itemId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="decreaseStock">
+    update item_stock
+    set stock = stock - #{amount}
+    where item_id = #{item_id} and stock >= #{amount};
   </update>
 </mapper>

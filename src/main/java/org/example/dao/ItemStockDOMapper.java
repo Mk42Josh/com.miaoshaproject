@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.dataObject.ItemStockDO;
 
 public interface ItemStockDOMapper {
@@ -54,4 +55,6 @@ public interface ItemStockDOMapper {
      * @mbg.generated Sat Aug 14 15:51:45 CST 2021
      */
     int updateByPrimaryKey(ItemStockDO record);
+
+    int decreaseStock(@Param("itemId") Integer itemId, @Param("amount")Integer amount);
 }
