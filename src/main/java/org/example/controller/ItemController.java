@@ -6,6 +6,8 @@ import org.example.response.CommonReturnType;
 import org.example.service.ItemService;
 import org.example.service.model.ItemModel;
 import org.example.service.model.PromoModel;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,7 +71,7 @@ public class ItemController extends BaseController{
             PromoModel promoModel = itemModel.getPromoModel();
             itemVO.setPromoStatus(promoModel.getStatus());
             itemVO.setPromoId(promoModel.getId());
-            itemVO.setStartDate(promoModel.getStartDate());
+            itemVO.setStartDate(promoModel.getStartDate().toString(DateTimeFormat.forPattern( "yyyy-MM-dd HH:mm:ss")));
             itemVO.setPromoPrice(promoModel.getPromoPrice());
         }else{
             itemVO.setPromoStatus(0);

@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderModel createOrder(Integer userId, Integer itemId, Integer amount) throws BusinessException {
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId,Integer amount) throws BusinessException {
         //1 校验输入
         UserModel user = userService.getUserById(userId);
         if(Objects.isNull(user)){
@@ -52,6 +52,20 @@ public class OrderServiceImpl implements OrderService {
         }
         if(amount <= 0 || amount > 99){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "购买数量错误");
+        }
+
+        //校验活动信息，promoId不等于null
+        if(promoId!=null){
+            // 1校验对应活动是否存在这个适用商品
+            //看传过来的秒杀模型id是否和商品模型中聚合的秒杀模型的id一致（该商品有秒杀活动，会将秒杀模型聚合进商品Model）
+            if(promoId.intValue()!=item.getPromoModel().getId()){
+                throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"活动信息不正确");
+
+                //即使id是秒杀模型的id，也不保险，还要校验是不是正在进行的秒杀
+            }else if(item.getPromoModel().getStatus()!=2){
+                throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"秒杀不在进行中");
+            }
+
         }
 
         //2 落单减库存（无法应对落单后不支付的情况，有人恶意下单不支付，就会使得商品实际没有卖但库存减了）
@@ -66,12 +80,16 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setUserId(userId);
         orderModel.setItemId(itemId);
         orderModel.setAmount(amount);
-        orderModel.setItemPrice(item.getPrice());
-        orderModel.setOrderPrice(item.getPrice().multiply(new BigDecimal(amount)));
+        //根据是否为秒杀活动 设置对应价格
+        orderModel.setItemPrice(promoId == null ? item.getPrice()
+                : item.getPromoModel().getPromoPrice());
+        orderModel.setOrderPrice(orderModel.getItemPrice()
+                .multiply(new BigDecimal(amount)));
         orderModel.setId(generateOrderNo());
+        orderModel.setPromoId(promoId);
 
         OrderDO orderDO = convertFromOrderModel(orderModel);
-        orderDOMapper.insert(orderDO);
+        orderDOMapper.insertSelective(orderDO);
 
         //4 返回前端
         itemService.increaseSales(itemId, amount);//增加对应商品的销量

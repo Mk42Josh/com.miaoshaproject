@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class PromoImpl implements PromoService {
+public class PromoServiceImpl implements PromoService {
 
     @Autowired
     private PromoDOMapper promoDoMapper;
@@ -36,10 +36,10 @@ public class PromoImpl implements PromoService {
         //开始时间在当前时间之后
         if(promoModel.getStartDate().isAfterNow()){
             //秒杀还未开始
-            promoModel.setStatus(0);
+            promoModel.setStatus(1);
         }else{
             //秒杀正在进行
-            promoModel.setStatus(1);
+            promoModel.setStatus(2);
         }
         return promoModel;
     }

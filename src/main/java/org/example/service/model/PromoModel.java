@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class PromoModel {
     private Integer id;
 
-    //与数据库无关的字段 秒杀活动是否已经开始
+    //与数据库无关的字段 秒杀活动是否已经开始 0 未开始 1 已经开始
     private Integer status;
 
     //秒杀活动的名称

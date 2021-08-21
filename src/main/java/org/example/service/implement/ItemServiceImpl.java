@@ -94,7 +94,8 @@ public class ItemServiceImpl implements ItemService {
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(id);
         ItemModel itemModel = convert2ItemModel(itemDO, itemStockDO);
         PromoModel promoModel = promoService.getPromoByItemId(id);
-        if(promoModel != null && promoModel.getStatus().equals(1)){
+//        if(promoModel != null && promoModel.getStatus().equals(1)){
+        if(promoModel != null){
             itemModel.setPromoModel(promoModel);
         }
         return itemModel;
