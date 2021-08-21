@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import org.example.controller.viewobject.ItemVO;
-import org.example.dataObject.ItemDO;
 import org.example.error.BusinessException;
 import org.example.response.CommonReturnType;
 import org.example.service.ItemService;

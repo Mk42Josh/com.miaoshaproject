@@ -13,6 +13,10 @@ public class ValidatorImpl implements InitializingBean {
 
     private Validator validator;
 
+    public ValidatorImpl() {
+        System.out.println("ValidatorImpl创建了");
+    }
+
     //在bean初始化以后 执行afterPropertiesSet方法
     @Override
     public void afterPropertiesSet() throws Exception {

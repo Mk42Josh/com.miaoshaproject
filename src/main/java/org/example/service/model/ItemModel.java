@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 public class ItemModel {
     private Integer id;
 
+    //使用聚合模型，如果不为空，说明该商品有还未开始或正在进行的秒杀活动
+    private PromoModel promoModel;
+
     //String不填时为空字符串 所以是NotBlank 其他的类型不填就是null 所以是NotNull
     @NotBlank(message = "名称不能为空")
     private String title;

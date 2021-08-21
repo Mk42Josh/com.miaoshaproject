@@ -36,23 +36,31 @@
         </javaClientGenerator>
 
         <!-- 生成对应表及其类名 -->
-        <table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <!--            去除复杂操作语句-->
-            <!--            enableCountByExample="false"-->
-            <!--            enableUpdateByExample="false" -->
-            <!--            enableDeleteByExample="false" -->
-            <!--            enableSelectByExample="false"-->
-            <!--            selectByExampleQueryId="false"-->
-        </table>
-        <table tableName="user_password" domainObjectName="UserPasswordDO" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"
-                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-                selectByExampleQueryId="false"></table>
-        <table tableName="item_stock" domainObjectName="ItemStockDO" enableCountByExample="false"
+
+<!--        生成的mapper.xml文件有不同程度的修改和添加 如果以下语句不注释 会覆盖之前的操作-->
+<!--        <table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash;            去除复杂操作语句&ndash;&gt;-->
+<!--            &lt;!&ndash;            enableCountByExample="false"&ndash;&gt;-->
+<!--            &lt;!&ndash;            enableUpdateByExample="false" &ndash;&gt;-->
+<!--            &lt;!&ndash;            enableDeleteByExample="false" &ndash;&gt;-->
+<!--            &lt;!&ndash;            enableSelectByExample="false"&ndash;&gt;-->
+<!--            &lt;!&ndash;            selectByExampleQueryId="false"&ndash;&gt;-->
+<!--        </table>-->
+<!--        <table tableName="user_password" domainObjectName="UserPasswordDO" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"-->
+<!--                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="item_stock" domainObjectName="ItemStockDO" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="order_info" domainObjectName="OrderDO" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+        <table tableName="sequence_info" domainObjectName="SequenceDO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 

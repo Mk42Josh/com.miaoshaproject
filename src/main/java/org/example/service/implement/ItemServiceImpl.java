@@ -101,6 +101,14 @@ public class ItemServiceImpl implements ItemService {
         return false;
     }
 
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BusinessException {
+        ItemDO itemDO = itemDOMapper.selectByPrimaryKey(itemId);
+        itemDO.setSales(itemDO.getSales()+amount);
+        itemDOMapper.updateByPrimaryKey(itemDO);
+    }
+
     private ItemModel convert2ItemModel(ItemDO itemDO, ItemStockDO itemStockDO){
         ItemModel itemModel = new ItemModel();
         BeanUtils.copyProperties(itemDO, itemModel);

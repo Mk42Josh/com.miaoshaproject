@@ -1,26 +1,22 @@
 package org.example.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.example.controller.viewobject.UserVO;
 import org.example.error.BusinessException;
 import org.example.error.EmBusinessError;
 import org.example.response.CommonReturnType;
+import org.example.save.HttpServletRequest;
 import org.example.service.UserService;
 import org.example.service.model.UserModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 @Controller("user")//controller告诉springmvc 该类是在容器启动时需要被加载到spring的bean工厂里去的
@@ -49,8 +45,8 @@ public class UserController extends BaseController{
         UserModel userModel = userService.validateLogin(telephone, this.EncodeByMd5(password));
 
         //将登陆凭证加入到用户登陆成功的session内
-        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
-        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        this.httpServletRequest.setAttribute("IS_LOGIN",true);
+        this.httpServletRequest.setAttribute("LOGIN_USER", userModel);
         return CommonReturnType.create(null);
     }
 
@@ -102,7 +98,7 @@ public class UserController extends BaseController{
 
         //2 需要将验证码与手机号做一个映射 一般分布式中会使用redis 因为它是键值对的存储形式 且可以覆盖value 且可以设置过期时间等
         // 这里采用httpsession的方式做关联
-        httpServletRequest.getSession().setAttribute(telephone, optCode);
+        httpServletRequest.setAttribute(telephone, optCode);
 
         //3 通过短信将otp验证码发送给用户
         System.out.println("Telephone=" + telephone + " & OtpCode=" + optCode);
@@ -136,14 +132,16 @@ public class UserController extends BaseController{
                                      @RequestParam(name = "age")Integer age,
                                      @RequestParam(name = "password")String password) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         //验证otp和手机号相符合
-        String inSessionOtpCode = (String) this.httpServletRequest.getSession().getAttribute(telephone);
+        String inSessionOtpCode = (String) this.httpServletRequest.getAttribute(telephone);
         //如果输入的验证码与http中保存的不一致 抛出异常
         /**
          * 为了这个注册能继续下去 不校验验证码
+         *
+         * 8.21 自己实现了HttpServletRequest 现在可以校验验证码了
          */
-//        if(!com.alibaba.druid.util.StringUtils.equals(otpCode, inSessionOtpCode)){
-//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "短信验证码错误");
-//        }
+        if(!com.alibaba.druid.util.StringUtils.equals(otpCode, inSessionOtpCode)){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "短信验证码错误");
+        }
         UserModel userModel = new UserModel();
         userModel.setName(name);
         userModel.setAge(age);
