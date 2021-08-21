@@ -12,6 +12,14 @@ public class ItemModel {
     //使用聚合模型，如果不为空，说明该商品有还未开始或正在进行的秒杀活动
     private PromoModel promoModel;
 
+    public PromoModel getPromoModel() {
+        return promoModel;
+    }
+
+    public void setPromoModel(PromoModel promoModel) {
+        this.promoModel = promoModel;
+    }
+
     //String不填时为空字符串 所以是NotBlank 其他的类型不填就是null 所以是NotNull
     @NotBlank(message = "名称不能为空")
     private String title;

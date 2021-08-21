@@ -5,6 +5,7 @@ import org.example.error.BusinessException;
 import org.example.response.CommonReturnType;
 import org.example.service.ItemService;
 import org.example.service.model.ItemModel;
+import org.example.service.model.PromoModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,15 @@ public class ItemController extends BaseController{
         if(itemModel == null) return null;
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemModel, itemVO);
+        if(itemModel.getPromoModel()!=null){
+            PromoModel promoModel = itemModel.getPromoModel();
+            itemVO.setPromoStatus(promoModel.getStatus());
+            itemVO.setPromoId(promoModel.getId());
+            itemVO.setStartDate(promoModel.getStartDate());
+            itemVO.setPromoPrice(promoModel.getPromoPrice());
+        }else{
+            itemVO.setPromoStatus(0);
+        }
         return itemVO;
     }
 
